@@ -15,7 +15,7 @@ class BilibiliSpider(object):
         self.commentParser = comment_parser.Comment_parser()    # 评论解析器
 
     # 实际爬取，根据关键词获取弹幕列表和评论列表
-    def get_barrages_and_comments_from_keyword(self, keyword):
+    def craw(self, keyword):
         barrage_list = []
         comment_list = []
 
@@ -62,8 +62,3 @@ class BilibiliSpider(object):
     # 根据视频地址，获取av字符串(avxxxxxxxx)
     def get_av_from_url(self, bilibili_video_url):
         return re.search('av\d+', bilibili_video_url).group(0)
-
-
-spider = BilibiliSpider()
-#spider.get_comments_from_av('av44417390')
-print(spider.get_barrages_and_comments_from_keyword('华农兄弟'))

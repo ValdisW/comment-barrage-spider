@@ -4,15 +4,11 @@ import urllib.request
 import requests
 from bs4 import BeautifulSoup
 import re
-import json
-
-import jieba
-from wordcloud import WordCloud
 
 def colorFunc(word=None, font_size=None, position=None, orientation=None, font_path=None, random_state=None):
     return "rgb(0,0,0)"
 
-class Spider(object):
+class BaiduSpider(object):
     def __init__(self):
         self.headers = {
             'Host': 'www.baidu.com',
@@ -46,6 +42,7 @@ class Spider(object):
             has_next_page = re.search('下一页', str(res.content, encoding='utf-8'))
             if not has_next_page: break
 
+        '''
         # 写入链接文件
         fh = open('./' + keyword + '.html', 'w')
         fh.write('<ol>')
@@ -59,43 +56,10 @@ class Spider(object):
             except Exception: continue
         fh.write('</ol>')
         fh.close()
+        '''
 
-        # 生成词云
+        # 获取标题列表
         words = []
         for a in a_list: words.append(a.get_text())
-        jb = ''.join(words)
 
-        jb = ''.join(jb)
-        jb = jieba.cut(jb)
-        jb = ''.join(jb)
-
-        print(jb)
-
-        wc = WordCloud(
-            font_path='./fonts/msyh.ttc',
-            background_color='white',
-            width=4961,
-            height=3508,
-            max_words=1000,
-            color_func=colorFunc
-        )
-
-
-        print('计算词频...')
-        freqs = wc.process_text(jb)
-        print(freqs)
-
-        print('生成json...')
-        with open(keyword + '_freq.json', 'w', encoding='utf-8') as jsonf:
-            json.dump(freqs, jsonf, ensure_ascii=False)
-
-        print('生成词云...')
-        wc.generate_from_frequencies(freqs)
-
-        print('写入文件...')
-        wc.to_file(keyword + '.jpg')
-
-if __name__ == '__main__':
-    keyword_list = ['留守青年', '新留守青年', '新农人', '返乡青年', '城市返乡']
-    spider = Spider()
-    for kwd in keyword_list: spider.craw(kwd)
+        return words

@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 import json
+import time
 
 from wordcloud import WordCloud
 
@@ -11,9 +12,15 @@ class WordcloudGenerator(object):
     def __init__(self):
         pass
 
-    # 由字符串列表生成词云
-    def generate_from_text_list(self, text_list):
-        text_str = ''.join(text_list)
+    # 由字符串生成词云
+    def generate_from_str(self, text_str, output_name):
+        now = time.strftime('%Y-%m-%d', time.localtime())
+        #text_str = ''.join(text_list)
+
+        # 分词操作
+        #text_str = jieba.cut(text_str)
+        #text_str = ''.join(text_str)
+
         wc = WordCloud(
             font_path='./fonts/msyh.ttc',
             background_color='white',
@@ -27,11 +34,11 @@ class WordcloudGenerator(object):
         print(freqs)
 
         print('生成json...')
-        with open('bilibili_barrages_freq.json', 'w', encoding='utf-8') as jsonf:
+        with open(output_name + '_' + now + '.json', 'w', encoding='utf-8') as jsonf:
             json.dump(freqs, jsonf, ensure_ascii=False)
 
         print('生成词云...')
         wc.generate_from_frequencies(freqs)
 
         print('写入文件...')
-        wc.to_file('bilibili_barrages_freq.jpg')
+        wc.to_file(output_name + '_' + now + '.jpg')
