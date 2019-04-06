@@ -22,9 +22,9 @@ class Controller(object):
         # 开始爬行，获取各自的弹幕和评论的字符串列表，同时生成词云
         print('合成词云…')
         for kwd in baidu_keywords:
-            self.wordcloud_generator.generate_from_str(''.join(self.baidu_spider.craw(kwd)))
+            self.wordcloud_generator.generate_from_str(''.join(self.baidu_spider.craw(kwd)), 'baidu_title_'+kwd)
 
-        bilibili_barrage_list, bilibili_comment_list = self.bilibili_spider.craw(bilibili_keyword, 'bilibili_comment')
+        bilibili_barrage_list, bilibili_comment_list = self.bilibili_spider.craw(bilibili_keyword)
         self.wordcloud_generator.generate_from_str(''.join(bilibili_barrage_list), 'bilibili_barrage')
         self.wordcloud_generator.generate_from_str(''.join(bilibili_comment_list), 'bilibili_comment')
 
