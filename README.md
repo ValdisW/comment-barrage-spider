@@ -1,2 +1,4 @@
-# comment-barrage-spider
-A spider used to get comment infomation from
+# 评论&弹幕爬虫
+
+### 项目简介
+根据关键词爬取百度搜索结果的标题、bilibili的弹幕和评论。
