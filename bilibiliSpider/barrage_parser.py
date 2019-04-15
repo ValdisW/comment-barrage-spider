@@ -6,7 +6,7 @@
 2.根据这个oid获取弹幕的url
 3.据此url进行爬取
 '''
-
+import os
 import time
 import re
 
@@ -79,15 +79,14 @@ class Barrage_parser(object):
         #self.count_and_wordcloud(barrages, av)
     '''
 
-    # 根据av获取弹幕列表
+    # 根据av获取弹幕列表（包括弹幕和弹幕ID）
     def get_current_barrage_from_av(self, av):
         print('获取oid...')
         oid = self.get_oid(av)
         if oid:
-            # calculate the real barrage xml page
+            # 最近弹幕，保存在一个XML文件中
             barrage_url = 'https://api.bilibili.com/x/v1/dm/list.so?oid=' + oid
 
-            # download the xml file
             print('下载xml到本地...')
             filepath, isSaturated = self.get_page(barrage_url, av, 'today')
             barrages_p = []
@@ -131,8 +130,9 @@ class Barrage_parser(object):
         else:
             if response.status_code == 200:
                 # 保存xml文件
+                if not os.path.exists('./xml'): os.mkdir('./xml')
 
-                filepath = './xml/av'+str(av)+'_'+time_str+'.xml'
+                filepath = './xml/'+str(av)+'_'+time_str+'.xml'
                 with open(filepath, 'wb') as f: f.write(response.content)
 
                 barrages_num = len(re.compile(b'</d>').findall(response.content))
@@ -154,10 +154,8 @@ class Barrage_parser(object):
         barrage_list = html.xpath('//d//text()')    # 弹幕文本list
         p_list = html.xpath('//d//@p')              # 弹幕p属性list
 
-        print(barrage_list)
-
         # 合并
-        barrage_p_list = []          # list内元素为touple类型，每个代表一条弹幕，包含弹幕文本和弹幕的p属性（独一无二）
+        barrage_p_list = []          # list内元素为touple，每个代表一条弹幕，包含弹幕文本和弹幕的p属性（unique）
         for i in range(0, len(p_list)): barrage_p_list.append((barrage_list[i], p_list[i]))
 
         return barrage_p_list

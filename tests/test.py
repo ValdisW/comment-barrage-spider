@@ -1,10 +1,9 @@
 #!/usr/bin/env python 
 # -*- coding:utf-8 -*-
 
-import os
 
-
-if not os.path.exists('./wordcloud_imgs'): os.mkdir('./wordcloud_imgs')
-fh = open('./wordcloud_imgs/23333.txt', 'w')
-fh.write('233333333')
-fh.close()
+a=[1,2,3]
+b=[4,5,6]
+l = list(zip(a,b))
+c,d = list(zip(*l))
+print(list(zip(*l)))

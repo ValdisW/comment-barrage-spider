@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
+import os
 
 from baiduSpider import BaiduSpider
 from bilibiliSpider import BilibiliSpider
@@ -9,8 +10,10 @@ class Controller(object):
     def __init__(self):
         self.baidu_spider = BaiduSpider()                   # 百度关键词爬虫
         self.bilibili_spider = BilibiliSpider()             # B站弹幕和评论爬虫
-
         self.wordcloud_generator = WordcloudGenerator()     # 词云生成器
+
+        # 创建需要的目录
+        if not os.path.exists('./xml'): os.mkdir('./xml')
 
     # 获取各自的弹幕和评论的字符串列表，同时生成词云
     def launch(self, config):
@@ -24,7 +27,8 @@ class Controller(object):
 
     def crawl_bilibili(self, kwd):
         bilibili_barrage_list, bilibili_comment_list = self.bilibili_spider.craw(kwd)
-        self.wordcloud_generator.generate_from_str(''.join(bilibili_barrage_list), 'bilibili_barrage')
+        barrages, IDs = zip(*bilibili_barrage_list)
+        self.wordcloud_generator.generate_from_str(''.join(barrages), 'bilibili_barrage')
         self.wordcloud_generator.generate_from_str(''.join(bilibili_comment_list), 'bilibili_comment')
 
     def crawl_baidu(self, kwds):

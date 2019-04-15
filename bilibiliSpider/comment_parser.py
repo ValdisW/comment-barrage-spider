@@ -17,7 +17,7 @@ class Comment_parser(object):
         aid = av[2:]
 
         # 本视频评论的总页数（或者是设置最大爬取页数）
-        page_sum = 335
+        page_sum = 1335
 
         # 循环爬取评论
         for page_num in range(1, page_sum + 1):
@@ -40,5 +40,3 @@ class Comment_parser(object):
 
         print(av + ': 共获得' + str(len(comments_list)) + '条评论。')
         return comments_list
-
-
