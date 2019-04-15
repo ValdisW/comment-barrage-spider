@@ -12,23 +12,28 @@ class Controller(object):
 
         self.wordcloud_generator = WordcloudGenerator()     # 词云生成器
 
-    def launch(self):
-        # 设置爬取关键词
+    # 获取各自的弹幕和评论的字符串列表，同时生成词云
+    def launch(self, config):
+        # 设置关键词
         baidu_keywords = ['留守青年', '新留守青年', '新农人', '返乡青年', '城市返乡']
         bilibili_keyword = '华农兄弟'
 
-        baidu_titles_list = []
+        # 爬行
+        if config['bilibili']: self.crawl_bilibili(bilibili_keyword)      # Bilibili
+        if config['baidu']: self.crawl_baidu(baidu_keywords)              # 百度
 
-        # 开始爬行，获取各自的弹幕和评论的字符串列表，同时生成词云
-        print('合成词云…')
-        for kwd in baidu_keywords:
-            self.wordcloud_generator.generate_from_str(''.join(self.baidu_spider.craw(kwd)), 'baidu_title_'+kwd)
-
-        bilibili_barrage_list, bilibili_comment_list = self.bilibili_spider.craw(bilibili_keyword)
+    def crawl_bilibili(self, kwd):
+        bilibili_barrage_list, bilibili_comment_list = self.bilibili_spider.craw(kwd)
         self.wordcloud_generator.generate_from_str(''.join(bilibili_barrage_list), 'bilibili_barrage')
         self.wordcloud_generator.generate_from_str(''.join(bilibili_comment_list), 'bilibili_comment')
 
-        print(baidu_titles_list)
+    def crawl_baidu(self, kwds):
+        for kwd in kwds:
+            self.wordcloud_generator.generate_from_str(''.join(self.baidu_spider.craw(kwd)), 'baidu_title_'+kwd)
 
+# 各定义结束后，从这里开始实际处理
 if __name__ == '__main__':
-    controller = Controller().launch()
+    Controller().launch({
+        'baidu': False,
+        'bilibili': True
+    })

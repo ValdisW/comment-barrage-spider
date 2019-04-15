@@ -78,9 +78,6 @@ class Barrage_parser(object):
         return barrages_p_list
         #self.count_and_wordcloud(barrages, av)
     '''
-    # 根据关键词获取弹幕列表
-    def get_barrages_by_keyword(self, keyword):
-        pass
 
     # 根据av获取弹幕列表
     def get_current_barrage_from_av(self, av):
@@ -133,7 +130,8 @@ class Barrage_parser(object):
             return '', False
         else:
             if response.status_code == 200:
-                # 下载xml文件
+                # 保存xml文件
+
                 filepath = './xml/av'+str(av)+'_'+time_str+'.xml'
                 with open(filepath, 'wb') as f: f.write(response.content)
 
@@ -146,7 +144,7 @@ class Barrage_parser(object):
                 return filepath, isSaturated
             else:
                 print('打开失败, %s' % oid_url)
-                return False
+                return '', False
 
     # 解析目标xml，获取其中所有的弹幕内容，touple形式保存在list中
     def xml_parse(self, filepath):
@@ -155,6 +153,8 @@ class Barrage_parser(object):
 
         barrage_list = html.xpath('//d//text()')    # 弹幕文本list
         p_list = html.xpath('//d//@p')              # 弹幕p属性list
+
+        print(barrage_list)
 
         # 合并
         barrage_p_list = []          # list内元素为touple类型，每个代表一条弹幕，包含弹幕文本和弹幕的p属性（独一无二）

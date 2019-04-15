@@ -1,11 +1,10 @@
 #!/usr/bin/env python 
 # -*- coding:utf-8 -*-
 
-import wechatsogou
+import os
 
-# 可配置参数
 
-# 直连
-ws_api = wechatsogou.WechatSogouAPI()
-
-ws_api.search_article('南京')
+if not os.path.exists('./wordcloud_imgs'): os.mkdir('./wordcloud_imgs')
+fh = open('./wordcloud_imgs/23333.txt', 'w')
+fh.write('233333333')
+fh.close()

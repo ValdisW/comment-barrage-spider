@@ -2,6 +2,7 @@
 # -*- coding:utf-8 -*-
 import json
 import time
+import os
 
 from wordcloud import WordCloud
 
@@ -34,11 +35,13 @@ class WordcloudGenerator(object):
         print(freqs)
 
         print('生成json...')
-        with open(output_name + '_' + now + '.json', 'w', encoding='utf-8') as jsonf:
+        if not os.path.exists('./wordcloud_json'): os.mkdir('./wordcloud_json')
+        with open('./wordcloud_json/' + output_name + '_' + now + '.json', 'w', encoding='utf-8') as jsonf:
             json.dump(freqs, jsonf, ensure_ascii=False)
 
         print('生成词云...')
         wc.generate_from_frequencies(freqs)
 
         print('写入文件...')
-        wc.to_file(output_name + '_' + now + '.jpg')
+        if not os.path.exists('./wordcloud_imgs'): os.mkdir('./wordcloud_imgs')
+        wc.to_file('./wordcloud_imgs/' + output_name + '_' + now + '.jpg')
