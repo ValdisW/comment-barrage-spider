@@ -25,7 +25,10 @@ class XiguaSpider(object):
     def get_comments_by_keyword(self, keyword):
         total_comment_list = []
         id_list = self.getIdListByKeyword(keyword)
+
+        video_index = 0
         for id in id_list:
+            video_index += 1
             total_comment_list = total_comment_list + self.getCommentsByID(id)
         return total_comment_list
 
@@ -39,11 +42,12 @@ class XiguaSpider(object):
 
         # 获取包含搜索结果的json数据
         url = 'https://www.ixigua.com/search_content/?format=json&autoload=true&count=10000&keyword=' + keyword_coded
-
+        print('视频信息url：' + url)
         try:
             res = requests.get(url)
             #print(res.status_code)
             originStr = str(res.content, 'utf-8')
+            print(originStr)
             findingRes = re.compile("\"id\": \d+").findall(originStr)
 
             # 提取ID
@@ -59,30 +63,43 @@ class XiguaSpider(object):
 
     # 根据视频id获取评论列表
     def getCommentsByID(self, id):
-        # 我也是这样觉得你好
         print('\n+=====================================\n视频：' + 'https://www.ixigua.com/a' + id)
         comment_list = []
 
-        # 包含评论的json数据
-        url = 'https://www.ixigua.com/api/comment/list/?group_id=' + id + '&item_id=' + id + '&offset=0&count=10000'
-        print('评论内容url：' + url)
+        raw_comments = []
+        for offset in range(0, 10000, 20):
+            # 包含评论的json地址
+            url = 'https://www.ixigua.com/api/comment/list/?group_id=' + id + '&item_id=' + id + '&offset=' + str(offset) + '&count=20'
 
-        # 初始json数据
-        res = requests.get(url, headers=self.headers)
-        originStr = str(res.content, encoding='utf-8')
+            # 获取并编码json数据
+            res = requests.get(url, headers=self.headers)
+            originStr = str(res.content, encoding='utf-8')
 
-        # 获取评论内容
-        comments = json.loads(originStr)['data']['comments']
-        for raw_comment in comments:
+            # 获取评论内容
+            new_raw_comments = json.loads(originStr)['data']['comments']
+            if len(new_raw_comments) == 0: break
+
+            # 收集
+            raw_comments = raw_comments + new_raw_comments
+
+
+        for raw_comment in raw_comments:
             raw_text = raw_comment['text']
 
             # 去掉emoji
             emojis = re.compile("<i.*?</span>").findall(raw_text)
             if emojis:
                 for emoji in emojis:
-                    raw_text = raw_text.replace(emoji, '')
-            raw_text = re.sub('[，, 。, ！, 【, 】]', '', raw_text)
+                    raw_text = raw_text.replace(emoji, ' ')
+
+            raw_text = re.sub('[，, 。, ！, 【, 】, 🔥, 😊]', ' ', raw_text)
+            raw_text = re.sub('\s{2,}', ' ', raw_text)
+
+            if re.search('龘鬞齾', raw_text): continue
             comment_list.append(raw_text)
-        print('本视频爬取评论' + str(len(comment_list)) + '条。')
+
+        print('获取了' + str(len(comment_list)) + '条评论。')
         if comment_list: print(comment_list)
+        print('+=====================================')
+
         return comment_list
