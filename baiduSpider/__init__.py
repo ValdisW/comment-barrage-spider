@@ -23,13 +23,14 @@ class BaiduSpider(object):
         }
 
     def craw(self, keyword):
-        print('Current keyword: %s' % keyword)
+        print('当前关键词: %s' % keyword)
         keyword_coded = urllib.request.quote(keyword)
         page_index = 1
 
         a_list = []
+        print('搜索页码：', end='')
         while True:
-            print('Current page: %d' % page_index)
+            print('%d ' % page_index, end='')
             url = 'https://www.baidu.com/s?wd=' + keyword_coded + '&pn=' + str(10 * (page_index - 1))
             res = requests.get(url, headers=self.headers)
             soup = BeautifulSoup(res.content, 'html.parser', from_encoding='utf-8')

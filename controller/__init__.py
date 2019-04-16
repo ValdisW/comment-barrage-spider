@@ -20,21 +20,17 @@ class Controller(object):
 
     # 获取各自的弹幕和评论的字符串列表，同时生成词云
     def launch(self, config):
-        # 设置关键词
-        baidu_keywords = ['留守青年', '新留守青年', '新农人', '返乡青年', '城市返乡']
-        bilibili_keyword = '华农兄弟'
+        if config['xigua']: self.crawl_xigua(config['xigua'])             # 西瓜视频
+        if config['bilibili']: self.crawl_bilibili(config['bilibili'])    # Bilibili
+        if config['baidu']: self.crawl_baidu(config['baidu'])             # 百度
 
-        # 爬行
-        if config['bilibili']: self.crawl_bilibili(bilibili_keyword)      # Bilibili
-        if config['baidu']: self.crawl_baidu(baidu_keywords)              # 百度
-        if config['xigua']: self.crawl_xigua([bilibili_keyword])          # 西瓜
-
-    def crawl_bilibili(self, kwd):
+    def crawl_bilibili(self, kwds):
         print('- Bilibili -')
-        bilibili_barrage_list, bilibili_comment_list = self.bilibili_spider.craw(kwd)
-        barrages, IDs = zip(*bilibili_barrage_list)
-        self.wordcloud_generator.generate_from_str(''.join(barrages), 'bilibili_barrage')
-        self.wordcloud_generator.generate_from_str(''.join(bilibili_comment_list), 'bilibili_comment')
+        for kwd in kwds:
+            bilibili_barrage_list, bilibili_comment_list = self.bilibili_spider.craw(kwd)
+            barrages, IDs = zip(*bilibili_barrage_list)
+            self.wordcloud_generator.generate_from_str(''.join(barrages), 'bilibili_barrage')
+            self.wordcloud_generator.generate_from_str(''.join(bilibili_comment_list), 'bilibili_comment')
 
     def crawl_baidu(self, kwds):
         print('- 百度 -')
@@ -49,7 +45,7 @@ class Controller(object):
 # 各定义结束后，从这里开始实际处理
 if __name__ == '__main__':
     Controller().launch({
-        'baidu': False,
-        'bilibili': False,
-        'xigua': True
+        'xigua': ['华农兄弟'],
+        'baidu': ['留守青年', '新留守青年', '新农人', '返乡青年', '城市返乡'],
+        'bilibili': ['华农兄弟'],
     })
