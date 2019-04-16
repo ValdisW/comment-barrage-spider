@@ -21,6 +21,15 @@ class XiguaSpider(object):
         }
         self.proxy = {"http": '104.238.156.87:12724'}
 
+    # 根据关键词获取所有评论
+    def get_comments_by_keyword(self, keyword):
+        total_comment_list = []
+        id_list = self.getIdListByKeyword(keyword)
+        for id in id_list:
+            total_comment_list = total_comment_list + self.getCommentsByID(id)
+        return total_comment_list
+
+
     # 根据关键词获得视频id列表
     def getIdListByKeyword(self, keyword):
         id_list = []
@@ -31,77 +40,49 @@ class XiguaSpider(object):
         # 获取包含搜索结果的json数据
         url = 'https://www.ixigua.com/search_content/?format=json&autoload=true&count=10000&keyword=' + keyword_coded
 
-        res = requests.get(url)
-        originStr = str(res.content, 'utf-8')
-        findingRes = re.compile("\"id\": \d+").findall(originStr)
+        try:
+            res = requests.get(url)
+            #print(res.status_code)
+            originStr = str(res.content, 'utf-8')
+            findingRes = re.compile("\"id\": \d+").findall(originStr)
 
-        # 提取ID
-        for result in findingRes: id_list.append(result.split(' ')[1])
+            # 提取ID
+            for result in findingRes: id_list.append(result.split(' ')[1])
+            print('获取到' + str(len(id_list)) + '个视频。')
 
-        print(id_list)
-        return id_list
+            return id_list
+        except requests.exceptions as e:
+            print(e)
+        except Exception as e:
+            print(e)
 
-    # 根据视频id获取评论
+
+    # 根据视频id获取评论列表
     def getCommentsByID(self, id):
+        # 我也是这样觉得你好
+        print('\n+=====================================\n视频：' + 'https://www.ixigua.com/a' + id)
         comment_list = []
 
         # 包含评论的json数据
         url = 'https://www.ixigua.com/api/comment/list/?group_id=' + id + '&item_id=' + id + '&offset=0&count=10000'
+        print('评论内容url：' + url)
 
-        # 初始文本数据
+        # 初始json数据
         res = requests.get(url, headers=self.headers)
         originStr = str(res.content, encoding='utf-8')
 
         # 获取评论内容
         comments = json.loads(originStr)['data']['comments']
         for raw_comment in comments:
-            print(raw_comment['text'])
-        '''
-        if not replies_dic: break
+            raw_text = raw_comment['text']
 
-        print('\033[1;31;40m-第' + str(page_num) + '页-\033[0m')
-        for reply_dic in replies_dic:
-            comment = reply_dic['content']['message']
-            print('\033[1;33;40m【装填评论】\033[0m' + comment)
-            comments_list.append(comment)
-
-        # 提取text
-        for result in findingRes: comment_list.append(result.split(' ')[1])
-
-        print(comment_list)
+            # 去掉emoji
+            emojis = re.compile("<i.*?</span>").findall(raw_text)
+            if emojis:
+                for emoji in emojis:
+                    raw_text = raw_text.replace(emoji, '')
+            raw_text = re.sub('[，, 。, ！, 【, 】]', '', raw_text)
+            comment_list.append(raw_text)
+        print('本视频爬取评论' + str(len(comment_list)) + '条。')
+        if comment_list: print(comment_list)
         return comment_list
-    '''
-
-'''
-        a_list = []
-        while True:
-            res = requests.get(url, headers=self.headers)
-            soup = BeautifulSoup(res.content, 'html.parser', from_encoding='utf-8')
-
-            results = soup.select('.r > a')  # a标签集合
-            a_list = a_list + results
-
-            page_index = page_index + 1
-
-            has_next_page = re.search('下一页', str(res.content, encoding='utf-8'))
-            if not has_next_page: break
-
-        fh = open('./' + keyword + '.html', 'w')
-        fh.write('<ol>')
-        for a in a_list:
-            try:
-                fh.write('<li><a href=\'')
-                fh.write(a.get('href'))
-                fh.write('\'>')
-                fh.write(a.get_text())
-                fh.write('</a></li>')
-            except Exception: continue
-        fh.write('</ol>')
-        fh.close()
-'''
-
-
-if __name__ == '__main__':
-    keyword_list = ['华农兄弟']
-    spider = XiguaSpider()
-    for kwd in keyword_list: spider.getCommentsByID('6655959477348467211')
