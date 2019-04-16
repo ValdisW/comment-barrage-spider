@@ -20,23 +20,27 @@ class Comment_parser(object):
         page_sum = 1335
 
         # 循环爬取评论
+        print('收集评论中...')
         for page_num in range(1, page_sum + 1):
             # 构建评论页的url
             comment_url = 'https://api.bilibili.com/x/v2/reply?&type=1&oid=' + aid + '&pn=' + str(page_num)
 
-            # 获得json原始数据
-            res = requests.get(comment_url)
-            ctt = str(res.content, encoding='utf-8')
+            try:
+                # 获得json原始数据
+                res = requests.get(comment_url)
+                ctt = str(res.content, encoding='utf-8')
 
-            #
-            replies_dic = json.loads(ctt)['data']['replies']
-            if not replies_dic: break
+                # 解析json
+                replies_dic = json.loads(ctt)['data']['replies']
+                if not replies_dic: break
 
-            print('\033[1;31;40m-第' + str(page_num) + '页-\033[0m')
-            for reply_dic in replies_dic:
-                comment = reply_dic['content']['message']
-                print('\033[1;33;40m【装填评论】\033[0m' + comment)
-                comments_list.append(comment)
+                print('\033[1;31;40m-第' + str(page_num) + '页-\033[0m', end=' ')
+                for reply_dic in replies_dic:
+                    comment = reply_dic['content']['message']
+                    #print('\033[1;33;40m【装填评论】\033[0m' + comment)
+                    comments_list.append(comment)
+            except requests.exceptions as e:
+                print(e)
 
-        print(av + ': 共获得' + str(len(comments_list)) + '条评论。')
+        print('\n' + av + ': 共获得' + str(len(comments_list)) + '条评论。')
         return comments_list

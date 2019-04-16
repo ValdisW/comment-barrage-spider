@@ -1,9 +1,8 @@
 #!/usr/bin/env python 
 # -*- coding:utf-8 -*-
 
+fh = open('./下载.json', 'r')
+a = fh.read().encode('utf-8').decode('unicode_escape')
 
-a=[1,2,3]
-b=[4,5,6]
-l = list(zip(a,b))
-c,d = list(zip(*l))
-print(list(zip(*l)))
+fh1 = open('new.json', 'w')
+fh1.write(a)

@@ -74,20 +74,20 @@ class Barrage_parser(object):
                 barrages_p_list = barrages_p_list | barrages_p
                 if not isSaturated: break
 
-        print('av'+str(av)+':实际爬取了'+str(len(barrages_p_list))+'条弹幕。')
+        print('av'+av+':实际爬取了'+str(len(barrages_p_list))+'条弹幕。')
         return barrages_p_list
         #self.count_and_wordcloud(barrages, av)
     '''
 
     # 根据av获取弹幕列表（包括弹幕和弹幕ID）
     def get_current_barrage_from_av(self, av):
-        print('获取oid...')
+        #print('获取oid...')
         oid = self.get_oid(av)
         if oid:
             # 最近弹幕，保存在一个XML文件中
             barrage_url = 'https://api.bilibili.com/x/v1/dm/list.so?oid=' + oid
 
-            print('下载xml到本地...')
+            #print('下载xml到本地...')
             filepath, isSaturated = self.get_page(barrage_url, av, 'today')
             barrages_p = []
             if filepath:
@@ -95,7 +95,7 @@ class Barrage_parser(object):
                 # get barrage text by xml file
                 barrages_p = self.xml_parse(filepath)
 
-            print('av' + str(av) + ':实际爬取了' + str(len(barrages_p)) + '条弹幕。')
+            print(av + ':实际爬取了' + str(len(barrages_p)) + '条弹幕。')
             return barrages_p
         else:
             return []
@@ -107,13 +107,13 @@ class Barrage_parser(object):
         middle_link = 'https://api.bilibili.com/x/player/pagelist?aid=' + aid
         try:
             time.sleep(0.5)
-            print('获取oid页面内容...')
+            #('获取oid页面内容...')
             res = requests.get(middle_link, headers=self.headers_content, timeout=30)
         except Exception as e:
-            print('获取内容失败,%s' % e)
+            #print('获取内容失败,%s' % e)
             return False
         else:
-            print('成功')
+            #print('成功')
             if res.status_code == 200:
                 pattern = '\"cid\":\d+'
                 mat = re.search(pattern, str(res.content, encoding='utf-8'))
@@ -132,7 +132,7 @@ class Barrage_parser(object):
                 # 保存xml文件
                 if not os.path.exists('./xml'): os.mkdir('./xml')
 
-                filepath = './xml/'+str(av)+'_'+time_str+'.xml'
+                filepath = './xml/'+av+'_'+time_str+'.xml'
                 with open(filepath, 'wb') as f: f.write(response.content)
 
                 barrages_num = len(re.compile(b'</d>').findall(response.content))
@@ -140,7 +140,7 @@ class Barrage_parser(object):
 
                 isSaturated = True if barrages_num >= maxlimit else False
 
-                print('av'+str(av)+'弹幕xml文件('+time_str+')下载成功。原地址：', oid_url)
+                #print(av+'弹幕xml文件('+time_str+')下载成功。原地址：', oid_url)
                 return filepath, isSaturated
             else:
                 print('打开失败, %s' % oid_url)
@@ -209,10 +209,10 @@ class Barrage_parser(object):
             )
             wc.generate(words)
             print('写入文件...')
-            filename = './wordcloud/av'+str(av)+'.jpg'
+            filename = './wordcloud/av'+av+'.jpg'
             wc.to_file(filename)
 
             print('完毕。')
             print('==============')
         else:
-            print('av'+str(av)+'弹幕太少了(不足5个)，下一个。')
+            print('av'+av+'弹幕太少了(不足5个)，下一个。')
