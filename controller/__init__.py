@@ -20,9 +20,9 @@ class Controller(object):
 
     # 获取各自的弹幕和评论的字符串列表，同时生成词云
     def launch(self, config):
+        if config['baidu']: self.crawl_baidu(config['baidu'])             # 百度
         if config['xigua']: self.crawl_xigua(config['xigua'])             # 西瓜视频
         if config['bilibili']: self.crawl_bilibili(config['bilibili'])    # Bilibili
-        if config['baidu']: self.crawl_baidu(config['baidu'])             # 百度
 
     def crawl_bilibili(self, kwds):
         print('- Bilibili -')
@@ -45,7 +45,7 @@ class Controller(object):
 # 各定义结束后，从这里开始实际处理
 if __name__ == '__main__':
     Controller().launch({
-        'xigua': ['华农兄弟'],
         'baidu': ['留守青年', '新留守青年', '新农人', '返乡青年', '城市返乡'],
         'bilibili': ['华农兄弟'],
+        'xigua': ['华农兄弟'],
     })

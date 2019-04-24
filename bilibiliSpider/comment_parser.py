@@ -39,7 +39,7 @@ class Comment_parser(object):
                     comment = reply_dic['content']['message']
                     #print('\033[1;33;40m【装填评论】\033[0m' + comment)
                     comments_list.append(comment)
-            except requests.exceptions as e:
+            except requests.exceptions.RequestException as e:
                 print(e)
 
         print('\n' + av + ': 共获得' + str(len(comments_list)) + '条评论。')
