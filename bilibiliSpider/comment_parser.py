@@ -34,7 +34,8 @@ class Comment_parser(object):
                 replies_dic = json.loads(ctt)['data']['replies']
                 if not replies_dic: break
 
-                print('\033[1;31;40m-第' + str(page_num) + '页-\033[0m', end=' ')
+                #print('\033[1;31;40m-第' + str(page_num) + '页-\033[0m', end=' ')
+                print(str(page_num), end=' ')
                 for reply_dic in replies_dic:
                     comment = reply_dic['content']['message']
                     #print('\033[1;33;40m【装填评论】\033[0m' + comment)

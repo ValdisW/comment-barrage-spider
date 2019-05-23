@@ -24,10 +24,10 @@ class Barrage_parser(object):
             'Cache-Control': 'max-age=0',
             'Upgrade-Insecure-Requests': '1',
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.92 Safari/537.36',
-            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
+            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
             'Accept-Encoding': 'gzip, deflate, br',
             'Accept-Language': 'zh-CN,zh;q=0.9,en;q=0.8',
-            'Cookie': 'finger=edc6ecda; LIVE_BUVID=AUTO1415378023816310; stardustvideo=1; CURRENT_FNVAL=8; buvid3=0D8F3D74-987D-442D-99CF-42BC9A967709149017infoc; rpdid=olwimklsiidoskmqwipww; fts=1537803390'
+            'Cookie': '_uuid=1967957A-B14A-5DE9-D441-41A92ED1AB2677559infoc; buvid3=481164A8-7E71-4AA7-87EA-CA73EF70C7DA40775infoc; LIVE_BUVID=AUTO5115561659814664; sid=cattb7cv; DedeUserID=13271717; DedeUserID__ckMd5=1f5367f5a29d5cb4; SESSDATA=d2bc012d%2C1558758034%2Cbc1be341; bili_jct=5957a9e9f713185654a6e10305ed7a2b; fts=1556166036; CURRENT_FNVAL=16; UM_distinctid=16a53a3f6514c4-069dcf04f8b778-f353163-130980-16a53a3f652621; rpdid=|(YuJ~m~|km0J\'ullYu)u~Ju; stardustvideo=-1; _dfcaptcha=506677d4de56c186778ba95c24d21756; bp_t_offset_13271717=256704517340171097'
         }
         self.headers_xml = {
             'Host': 'api.bilibili.com',
@@ -35,10 +35,10 @@ class Barrage_parser(object):
             'Cache-Control': 'max-age=0',
             'Upgrade-Insecure-Requests': '1',
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.92 Safari/537.36',
-            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
+            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
             'Accept-Encoding': 'gzip, deflate, br',
             'Accept-Language': 'zh-CN,zh;q=0.9,en;q=0.8',
-            'Cookie': '_uuid=55AE737A-39E5-DBDE-E99D-D1CF8820390F86116infoc; fts=1508229812; pgv_pvi=7374468096; rpdid=oqqwsmxwqpdoswqiilmqw; LIVE_BUVID=2988c862a6b9d72a34c05e964228b6bb; LIVE_BUVID__ckMd5=d11b8d00613fdb72; im_notify_type_13271717=2; sid=7etdt55i; UM_distinctid=1669ae067512bb-028802226e476e-8383268-144000-1669ae067524cc; CURRENT_QUALITY=80; CURRENT_FNVAL=16; stardustvideo=-1; arrange=matrix; DedeUserID=13271717; DedeUserID__ckMd5=1f5367f5a29d5cb4; SESSDATA=d2d20cb4%2C1553782962%2Cabc9c221; bili_jct=c10b992cadf74d778ed51d07e36c99ca; buvid3=71B33620-4962-4564-AD05-F8CED0AFA73447161infoc; _dfcaptcha=1d1eebb130234c10cb327afb0cc314ea; bp_t_offset_13271717=228775470293804925'
+            'Cookie': '_uuid=1967957A-B14A-5DE9-D441-41A92ED1AB2677559infoc; buvid3=481164A8-7E71-4AA7-87EA-CA73EF70C7DA40775infoc; LIVE_BUVID=AUTO5115561659814664; sid=cattb7cv; DedeUserID=13271717; DedeUserID__ckMd5=1f5367f5a29d5cb4; SESSDATA=d2bc012d%2C1558758034%2Cbc1be341; bili_jct=5957a9e9f713185654a6e10305ed7a2b; fts=1556166036; CURRENT_FNVAL=16; UM_distinctid=16a53a3f6514c4-069dcf04f8b778-f353163-130980-16a53a3f652621; rpdid=|(YuJ~m~|km0J\'ullYu)u~Ju; stardustvideo=-1; _dfcaptcha=506677d4de56c186778ba95c24d21756; bp_t_offset_13271717=256704517340171097'
         }
         self.headers_videopage = {
             'Host': 'www.bilibili.com',
@@ -52,34 +52,38 @@ class Barrage_parser(object):
             'Cookie': 'fts=1508229812; pgv_pvi=7374468096; rpdid=oqqwsmxwqpdoswqiilmqw; LIVE_BUVID=2988c862a6b9d72a34c05e964228b6bb; LIVE_BUVID__ckMd5=d11b8d00613fdb72; im_notify_type_13271717=2; sid=7etdt55i; UM_distinctid=1669ae067512bb-028802226e476e-8383268-144000-1669ae067524cc; _uuid=9797E404-709C-2013-055F-4E300C6854A405039infoc; CURRENT_QUALITY=80; CURRENT_FNVAL=16; stardustvideo=-1; Hm_lvt_8a6e55dbd2870f0f5bc9194cddf32a02=1546704889,1546777512,1549280995; arrange=matrix; DedeUserID=13271717; DedeUserID__ckMd5=1f5367f5a29d5cb4; SESSDATA=d2d20cb4%2C1553782962%2Cabc9c221; bili_jct=c10b992cadf74d778ed51d07e36c99ca; buvid3=71B33620-4962-4564-AD05-F8CED0AFA73447161infoc; _dfcaptcha=fa5b271726a7f59603b02bdfb18ef722; bp_t_offset_13271717=228899710812017602'
         }
 
-    '''
-    # 实际爬取（全部弹幕）
-    def get_history_barrage_by_av(self, av):
+    ####################################################
+    # ** 获取指定x年x月x日的历史弹幕
+    ####################################################
+    # 历史弹幕文件url的获取需要两个信息：
+    #   1.视频的oid，表示要爬取哪个视频
+    #   2.日期字符串：yyyy-mm-dd，表示要获取哪天的弹幕
+    #
+    # 返回的list的元素为长度为2的touple，第一个元素是字符串内容，第二个是弹幕的p属性
+    # P.S.查看B站的历史弹幕需要用户登录，这里也不例外
+    ####################################################
+    def get_history_barrage_by_av(self, av, date):
+        # 获取oid
         oid = self.get_oid(av)
-        #url = 'https://api.bilibili.com/x/v1/dm/list.so?oid=' + oid
-        barrages_p_list = set()
-        for i in range(0, 30):
-            time_str = time.strftime('%Y-%m-%d', time.localtime(time.mktime((time.strptime(time.strftime('%Y-%m-%d'), '%Y-%m-%d')))-24*60*60*i))
 
-            # calculate the real barrage xml page
-            barrage_url = 'https://api.bilibili.com/x/v2/dm/history?type=1&oid=' + oid + '&date=' + time_str
-            #barrage_url = 'https://api.bilibili.com/x/v1/dm/list.so?oid=' + oid
+        # 构造目标url
+        barrage_url = 'https://api.bilibili.com/x/v2/dm/history?type=1&oid=' + oid + '&date=' + date
+        print(barrage_url)
 
-            # download the xml file
-            filepath, isSaturated = self.get_page(barrage_url, av, time_str)
-            if filepath:
-                # get barrage text by xml file
-                barrages_p = self.xml_parse(filepath)
+        # 通过url下载xml文件到本地
+        filepath, isSaturated = self.get_page(barrage_url, av, date)
 
-                barrages_p_list = barrages_p_list | barrages_p
-                if not isSaturated: break
+        if filepath:
+            # 通过下载的xml文件获取弹幕和p属性touple列表
+            barrages_p = self.xml_parse(filepath)
 
-        print('av'+av+':实际爬取了'+str(len(barrages_p_list))+'条弹幕。')
-        return barrages_p_list
+        print(av+':实际爬取了'+str(len(barrages_p))+'条弹幕。')
+        return barrages_p
         #self.count_and_wordcloud(barrages, av)
-    '''
 
-    # 根据av获取弹幕列表（包括弹幕和弹幕ID）
+    ####################################################
+    # ** 根据av获取弹幕列表（包括弹幕和弹幕ID）
+    ####################################################
     def get_current_barrage_from_av(self, av):
         #print('获取oid...')
         oid = self.get_oid(av)
@@ -133,7 +137,8 @@ class Barrage_parser(object):
                 if not os.path.exists('./xml'): os.mkdir('./xml')
 
                 filepath = './xml/'+av+'_'+time_str+'.xml'
-                with open(filepath, 'wb') as f: f.write(response.content)
+                with open(filepath, 'wb') as f:
+                    f.write(response.content)
 
                 barrages_num = len(re.compile(b'</d>').findall(response.content))
                 maxlimit = int(re.search(b'\d+', re.search(b'<maxlimit>\d+</maxlimit>', response.content).group(0)).group(0))
@@ -146,7 +151,7 @@ class Barrage_parser(object):
                 print('打开失败, %s' % oid_url)
                 return '', False
 
-    # 解析目标xml，获取其中所有的弹幕内容，touple形式保存在list中
+    # 将目标xml文件中的弹幕以touple形式保存在list中
     def xml_parse(self, filepath):
         time.sleep(0.5)
         html = etree.parse(filepath, etree.HTMLParser())
@@ -215,4 +220,7 @@ class Barrage_parser(object):
             print('完毕。')
             print('==============')
         else:
-            print('av'+av+'弹幕太少了(不足5个)，下一个。')
+            print('av'+av+'弹幕太少了(不足30个)，下一个。')
+
+# if __name__ == '__main__':
+#     print(Barrage_parser().get_history_barrage_by_av('av15900788', '2019-04-11'))

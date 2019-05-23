@@ -32,6 +32,14 @@ class Controller(object):
             self.wordcloud_generator.generate_from_str(''.join(barrages), 'bilibili_barrage')
             self.wordcloud_generator.generate_from_str(''.join(bilibili_comment_list), 'bilibili_comment')
 
+    def crawl_bilibili_history(self, kwds, dateStr):
+        print('爬取Bilibili在' + dateStr + '当天的弹幕和评论...')
+        for kwd in kwds:
+            bilibili_barrage_list, bilibili_comment_list = self.bilibili_spider.craw_history(kwd, dateStr)
+            barrages, IDs = zip(*bilibili_barrage_list)
+            self.wordcloud_generator.generate_from_str(''.join(barrages), 'bilibili_barrage')
+            self.wordcloud_generator.generate_from_str(''.join(bilibili_comment_list), 'bilibili_comment')
+
     def crawl_baidu(self, kwds):
         print('- 百度 -')
         for kwd in kwds:
@@ -44,8 +52,9 @@ class Controller(object):
 
 # 各定义结束后，从这里开始实际处理
 if __name__ == '__main__':
-    Controller().launch({
-        'baidu': ['留守青年', '新留守青年', '新农人', '返乡青年', '城市返乡'],
-        'bilibili': ['华农兄弟'],
-        'xigua': ['华农兄弟'],
-    })
+    # Controller().launch({
+    #     'baidu': ['留守青年', '新留守青年', '新农人', '返乡青年', '城市返乡'],
+    #     'bilibili': ['华农兄弟'],
+    #     'xigua': ['华农兄弟'],
+    # })
+    Controller().crawl_bilibili_history(['华农兄弟'], '2019-05-20')
