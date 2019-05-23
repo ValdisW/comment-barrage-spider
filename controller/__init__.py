@@ -35,10 +35,10 @@ class Controller(object):
     def crawl_bilibili_history(self, kwds, dateStr):
         print('爬取Bilibili在' + dateStr + '当天的弹幕和评论...')
         for kwd in kwds:
-            bilibili_barrage_list, bilibili_comment_list = self.bilibili_spider.craw_history(kwd, dateStr)
+            bilibili_barrage_list = self.bilibili_spider.craw_history(kwd, dateStr)
             barrages, IDs = zip(*bilibili_barrage_list)
             self.wordcloud_generator.generate_from_str(''.join(barrages), 'bilibili_barrage')
-            self.wordcloud_generator.generate_from_str(''.join(bilibili_comment_list), 'bilibili_comment')
+            #self.wordcloud_generator.generate_from_str(''.join(bilibili_comment_list), 'bilibili_comment')
 
     def crawl_baidu(self, kwds):
         print('- 百度 -')
@@ -57,4 +57,4 @@ if __name__ == '__main__':
     #     'bilibili': ['华农兄弟'],
     #     'xigua': ['华农兄弟'],
     # })
-    Controller().crawl_bilibili_history(['华农兄弟'], '2019-05-20')
+    Controller().crawl_bilibili_history(['华农兄弟'], '2019-04-01')

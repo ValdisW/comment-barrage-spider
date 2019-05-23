@@ -40,7 +40,6 @@ class BilibiliSpider(object):
     # 历史模式，根据关键词和日期字符串获取某天的弹幕和评论信息（评论是最新的）
     def craw_history(self, keyword, dateStr):
         barrage_list = []
-        comment_list = []
 
         # 获取关键词对应的(av, 标题)列表
         av_and_title_list = self.get_av_from_keyword(keyword)
@@ -52,13 +51,31 @@ class BilibiliSpider(object):
             video_index += 1
             print('\n+=========================\n(' + str(video_index) + '/' + str(num_of_videos) + ')当前：处理' + av_and_title[0] + '：' + 'https://www.bilibili.com/video/' + av_and_title[0])
             print(av_and_title[1])
-            comments = self.commentParser.get_comments_from_av(av_and_title[0])
             barrages = self.barrageParser.get_history_barrage_by_av(av_and_title[0], dateStr)
-            comment_list = comment_list + comments
             barrage_list = barrage_list + barrages
             print('+=========================')
 
-        return barrage_list, comment_list
+        return barrage_list
+        # barrage_list = []
+        # comment_list = []
+        #
+        # # 获取关键词对应的(av, 标题)列表
+        # av_and_title_list = self.get_av_from_keyword(keyword)
+        #
+        # # 逐个视频提取评论
+        # num_of_videos = len(av_and_title_list)
+        # video_index = 0
+        # for av_and_title in av_and_title_list:
+        #     video_index += 1
+        #     print('\n+=========================\n(' + str(video_index) + '/' + str(num_of_videos) + ')当前：处理' + av_and_title[0] + '：' + 'https://www.bilibili.com/video/' + av_and_title[0])
+        #     print(av_and_title[1])
+        #     comments = self.commentParser.get_comments_from_av(av_and_title[0])
+        #     barrages = self.barrageParser.get_history_barrage_by_av(av_and_title[0], dateStr)
+        #     comment_list = comment_list + comments
+        #     barrage_list = barrage_list + barrages
+        #     print('+=========================')
+        #
+        # return barrage_list, comment_list
 
     # 根据关键词，获取所有视频的av号
     def get_av_from_keyword(self, keyword):
